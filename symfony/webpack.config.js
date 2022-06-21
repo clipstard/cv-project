@@ -1,4 +1,5 @@
 const Encore = require('@symfony/webpack-encore');
+const CssMinimizer = require('css-minimizer-webpack-plugin');
 
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
 // It's useful when you use tools that rely on webpack.config.js file.
@@ -24,6 +25,12 @@ Encore
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')
+    .copyFiles({
+        from: './assets/images',
+
+        // optional target path, relative to the output dir
+        to: 'images/[path][name].[ext]',
+    })
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
@@ -48,6 +55,9 @@ Encore
     .configureBabel((config) => {
         config.plugins.push('@babel/plugin-proposal-class-properties');
     })
+    .addPlugin(
+        new CssMinimizer(),
+    )
 
     // enables @babel/preset-env polyfills
     .configureBabelPresetEnv((config) => {
