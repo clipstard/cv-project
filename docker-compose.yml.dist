@@ -1,0 +1,85 @@
+version: '3'
+services:
+    mysql:
+        image: mysql:5.7
+        container_name: cv-mysql
+        restart: always
+        environment:
+            MYSQL_DATABASE: 'db'
+            MYSQL_USER: 'user'
+            MYSQL_PASSWORD: 'password'
+            MYSQL_ROOT_PASSWORD: 'root'
+        networks:
+            web:
+                ipv4_address: 172.2.0.6
+        ports:
+            - "3306:3306"
+        expose:
+            - 3306
+        volumes:
+            - "./docker/mariadb/volumes:/var/lib/mysql"
+
+    php-fpm:
+        build:
+            context: ./docker/php-fpm
+            args:
+                - INSTALL_XDEBUG=false
+                - XDEBUG_REMOTE_HOST=127.0.0.1
+                - XDEBUG_REMOTE_PORT=9000
+                - XDEBUG_IDE_KEY=project
+                - UID=1001
+                - GID=1001
+        volumes:
+            - symfony:/var/www/symfony
+        networks:
+            web:
+                ipv4_address: 172.2.0.2
+        container_name: cv-php
+        working_dir: /var/www/symfony
+        restart: unless-stopped
+        expose:
+            - 9001
+            - 9000
+        depends_on:
+            - mysql
+
+    nginx:
+        build:
+            context: ./docker/nginx
+            args:
+                - UID=1001
+                - GID=1001
+        container_name: cv-nginx
+        volumes:
+            - symfony:/var/www/symfony
+        restart: unless-stopped
+        networks:
+            web:
+                ipv4_address: 172.2.0.4
+        working_dir: /var/www/symfony
+        depends_on:
+            - php-fpm
+        ports:
+            - "80:80"
+        expose:
+            - 80
+
+networks:
+    web:
+        external: true
+
+volumes:
+    dbvolume:
+        driver: local
+        driver_opts:
+            o: bind
+            type: none
+            device: ${pwd}/docker/mariadb/volume
+    symfony:
+        driver: local
+        driver_opts:
+            o: bind
+            type: none
+            device: ${pwd}/symfony
+
+#    docker network create --subnet=172.2.0.0/24 --ip-range=172.2.0.0/24 --gateway=172.2.0.1 web
