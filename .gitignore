@@ -10,7 +10,6 @@ docker/mariadb/volumes
 #!/symfony/reports/.gitkeep
 ###< symfony/framework-bundle ###
 
-/docker/nginx/symfony.conf
 /symfony/*.pem
 
 # IDEs and editors
