@@ -1,5 +1,8 @@
 'use strict';
-const w = (window as any);
+
+import './extra';
+
+const w = window;
 const showLoader = w.showLoader;
 const hideLoader = w.hideLoader;
 
@@ -202,4 +205,97 @@ $(window).on('load', function () {
         Magnific Popup
     -------------------*/
     $('.gallery_img').magnificPopup(_magnificPopupSettings);
+})(jQuery);
+
+$(window).on('load', function() {
+    /*------------------
+        Preloder
+    --------------------*/
+    $(".loader").fadeOut();
+    $("#preloder").delay(400).fadeOut("slow");
+
+});
+
+
+(function($) {
+
+    /*------------------
+        Background set
+    --------------------*/
+    /*------------------
+        Background set
+    --------------------*/
+    $('.set-bg').each(function() {
+        var bg = $(this).data('setbg');
+        $(this).css('background-image', 'url(' + bg + ')');
+    });
+
+
+    $('.review-slider').owlCarousel({
+        loop: true,
+        nav: false,
+        dots: true,
+        items: 1,
+        autoplay: true
+    });
+
+    $('.progress-bar-style').each(function() {
+        var progress = $(this).data("progress");
+        var prog_width = progress + '%';
+        if (progress <= 100) {
+            $(this).append('<div class="bar-inner" style="width:' + prog_width + '"><span>' + prog_width + '</span></div>');
+        }
+        else {
+            $(this).append('<div class="bar-inner" style="width:100%"><span>' + prog_width + '</span></div>');
+        }
+    });
+
+
+    $('.lan-prog').each(function() {
+        var progress = $(this).data("lanprogesss");
+        var ele      = '<span></span>';
+        var ele_fade = '<span class="fade-ele"></span>';
+
+        for (var i = 1; i <= 5; i++) {
+            if(i <= progress){
+                $(this).append(ele);
+            } else {
+                $(this).append(ele_fade);
+            }
+        }
+    });
+
+
+    /*------------------
+        Popup
+    --------------------*/
+    $('.portfolio-item .port-pic').magnificPopup({
+        type: 'image',
+        mainClass: 'img-popup-warp',
+        removalDelay: 500,
+    });
+
+
+    console.log($().cirecleProgress);
+    if($().circleProgress){
+        //Set progress circle 1
+        const val1 = ($('#progress1').data('value') || 0) / 100;
+        const val2 = ($('#progress2').data('value') || 0) / 100;
+        $("#progress1").circleProgress({
+            value: val1,
+            size: 175,
+            thickness: 2,
+            fill: "#40424a",
+            emptyFill: "rgba(0, 0, 0, 0)"
+        });
+        //Set progress circle 2
+        $("#progress2").circleProgress({
+            value: val2,
+            size: 175,
+            thickness: 2,
+            fill: "#40424a",
+            emptyFill: "rgba(0, 0, 0, 0)"
+        });
+    }
+
 })(jQuery);

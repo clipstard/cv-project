@@ -2,15 +2,27 @@
 
 namespace App\Controller;
 
+use App\Entity\Portfolio;
+use App\Repository\PortfolioRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
-    #[Route(path: '/', name: 'home')]
-    public function home(): Response
+    #[Route(path: '/{id}', name: 'home', defaults: ['id' => 1])]
+    public function home(int $id, PortfolioRepository $portfolioRepository): Response
     {
-        return $this->render('layout.html.twig');
+        /** @var Portfolio|null $portfolio */
+        $portfolio = $portfolioRepository->find($id);
+
+        if (!$portfolio) {
+            $portfolio = Portfolio::placeholder();
+        }
+
+//        dump($portfolio); die;
+        return $this->render('layout.html.twig', [
+            'portfolio' => $portfolio,
+        ]);
     }
 }

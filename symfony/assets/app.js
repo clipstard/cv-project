@@ -10,19 +10,4 @@ import './styles/app.scss';
 
 // start the Stimulus application
 import './bootstrap';
-
-console.log('using a typescript');
-
-interface Example {
-    id: number;
-}
-
-class App {
-    example: Example = {
-        id: 123,
-    };
-}
-
-
-const app = new App();
-console.log(app);
+import './scripts/main';

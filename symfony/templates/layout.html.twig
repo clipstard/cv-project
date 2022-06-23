@@ -37,6 +37,234 @@
 <div id="loader-overlay"></div>
 
 
+<!-- begin of body -->
+
+<div id="preloder" style="display: none;">
+    <div class="loader" style="display: none;"></div>
+</div>
+
+<header class="header-section">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="site-logo">
+                    <h2><a href="#">Civic</a></h2>
+                    <p>Enhance your online presence</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section class="hero-section spad">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-10 offset-xl-1">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="hero-text">
+                            <h2>{{ portfolio.firstName ~ ' ' ~ portfolio.lastName }}</h2>
+                            <p>{{ portfolio.introduction | raw }}</p>
+                        </div>
+                        <div class="hero-info">
+                            <h2>General Info</h2>
+                            <ul>
+                                <li><span>Date of Birth</span>{{ portfolio.birthDate | date("Y/m/d") }}</li>
+                                <li><span>Address</span>{{ portfolio.address }}</li>
+                                <li><span>E-mail</span>{{ portfolio.email }}</li>
+                                <li><span>Phone </span>{{ portfolio.phone }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <figure class="hero-image">
+                            {% if portfolio.image is not null %}
+                                {% set img = 'images/' ~ portfolio.image %}
+                            {% else %}
+                                {% set img = 'images/avatar.png' %}
+                            {% endif %}
+                            <img src="{{ asset(img) }}" alt="5">
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<div class="social-section">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-10 offset-xl-1">
+                <div class="social-link-warp">
+                    <div class="social-links">
+                        {% if portfolio.pinterest is not null %}<a href="{{ portfolio.pinterest }}"><span class="fa-brands fa-pinterest"></span></a>{% endif %}
+                        {% if portfolio.linkedin is not null %}<a href="{{ portfolio.linkedin }}"><span class="fa-brands fa-linkedin"></span></a>{% endif %}
+                        {% if portfolio.instagram is not null %}<a href="{{ portfolio.instagram }}"><span class="fa-brands fa-instagram"></span></a>{% endif %}
+                        {% if portfolio.facebook is not null %}<a href="{{ portfolio.facebook }}"><span class="fa-brands fa-facebook"></span></a>{% endif %}
+                        {% if portfolio.twitter is not null %}<a href="{{ portfolio.twitter }}"><span class="fa-brands fa-twitter"></span></a>{% endif %}
+                    </div>
+                    <h2 class="hidden-md hidden-sm">My Social Profiles</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<section class="resume-section spad">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-7 offset-xl-2">
+                <div class="section-title">
+                    <h2>Work Experience</h2>
+                </div>
+                <ul class="resume-list">
+                    {% for work in portfolio.workExperiences %}
+                        <li>
+                            <h2>{{ work.startDate | date('Y') }} - {% if work.endDate is not null %}{{ work.endDate | date('Y') }}{% else %} Present {% endif %}</h2>
+                            <h3>{{ work.title }}</h3>
+                            <h4>{{ work.post }}</h4>
+                            <p>{{ work.description | raw }}</p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="resume-section with-bg spad">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-7 offset-xl-2">
+                <div class="section-title">
+                    <h2>Education</h2>
+                </div>
+                <ul class="resume-list">
+                    {% for education in portfolio.educations %}
+                        <li>
+                            <h2>{{ education.year }}</h2>
+                            <h3>{{ education.title }}</h3>
+                            <h4>{{ education.diplomaName }}</h4>
+                            <p>{{ education.description | raw }}</p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="review-section spad pb-0">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-7 offset-xl-2">
+                <div class="section-title">
+                    <h2>References</h2>
+                </div>
+                {% if portfolio.references is not empty %}
+                <div class="review-slider owl-carousel owl-loaded owl-drag">
+                    <div class="owl-stage-outer">
+                        <div class="owl-stage">
+                            {% for reference in portfolio.references %}
+                                <div class="owl-item">
+                                    <div class="single-review">
+                                        <div class="qut">“</div>
+                                        <p>{{ reference.description | raw }}</p>
+                                        <h3>{{ reference.author }}</h3>
+                                        <h4>{{ reference.authorPost }}</h4>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="extra-section spad pb-0">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-8 offset-xl-2">
+                <div class="section-title">
+                    <h2>Extra Skills</h2>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 pt-5">
+                        <div class="fact-box trans">
+                            <div class="fact-content">
+                                <div class="circle-progress">
+                                    <div id="progress1" class="prog-circle" data-value="{{ portfolio.enthusiasm | default(0)}}"></div>
+                                    <div class="progress-info">
+                                        <h2>{{ portfolio.enthusiasm | default(0) }}%</h2>
+                                    </div>
+                                    <div class="prog-title">
+                                        <h3>Enthusiasm</h3>
+                                        <p>Closest to perfection.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 pt-5">
+                        <div class="fact-box trans">
+                            <div class="fact-content">
+                                <div class="circle-progress">
+                                    <div id="progress2" class="prog-circle" data-value="{{ portfolio.englishLevel | default(0) }}"></div>
+                                    <div class="progress-info">
+                                        <h2>{{ portfolio.englishLevel | default(0) }}%</h2>
+                                    </div>
+                                    <div class="prog-title">
+                                        <h3>English knowledge</h3>
+                                        <p>Closest to perfection</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="fact-box">
+                            <div class="fact-content">
+                                <img src="{{ asset('build/images/x1.webp') }}" alt="">
+                                <h2>{{ portfolio.yearsOfExperience | default(0) }}</h2>
+                                <p>IT Years of Experience</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="fact-box">
+                            <div class="fact-content">
+                                <img src="{{ asset('build/images/x2.webp') }}" alt="">
+                                <h2>{{ portfolio.awardsWon | default(0) }}</h2>
+                                <p>Awards Won</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<footer class="footer-section">
+    <div class="container text-center">
+        <div class="copyright">
+            Copyright © Eugeniu Nicolenco, this cv is made with <i class="fa fa-heart-o" aria-hidden="true"></i>
+        </div>
+    </div>
+</footer>
+
+<!-- end of body -->
+
 <script>
     window.loaderTpl = `
                 <div class="sk-chase">
