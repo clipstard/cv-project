@@ -5,10 +5,10 @@ services:
         container_name: cv-mysql
         restart: always
         environment:
-            MYSQL_DATABASE: 'db'
-            MYSQL_USER: 'user'
-            MYSQL_PASSWORD: 'password'
-            MYSQL_ROOT_PASSWORD: 'root'
+            MYSQL_DATABASE: 'admin'
+            MYSQL_USER: 'admin'
+            MYSQL_PASSWORD: 'admin'
+            MYSQL_ROOT_PASSWORD: 'admin'
         networks:
             web:
                 ipv4_address: 172.2.0.6

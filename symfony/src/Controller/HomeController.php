@@ -20,7 +20,6 @@ class HomeController extends AbstractController
             $portfolio = Portfolio::placeholder();
         }
 
-//        dump($portfolio); die;
         return $this->render('layout.html.twig', [
             'portfolio' => $portfolio,
         ]);
