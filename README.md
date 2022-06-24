@@ -17,7 +17,5 @@ To be able to run the project you should have installed [docker environment and 
 
 ### For each database changes (Entity modification)
 1. Run `docker exec -it cv-php bash`
-2. Inside container run 
-   1. To generate migrations automatically - `composer generate`
-   2. To load migrations into sql - `composer migrate`
+2. Inside container run to update database automatically - `composer migrate` or `bin/console d:s:u -f`
 
